@@ -85,7 +85,7 @@ namespace ProfileMVCApplication.Areas.Admin.Controllers
                                           test.Name,
                                           test.Email,
                                           test.Address,
-                                          test.Mobile,
+                                          test.Mobile
                                           
                                       }).FirstOrDefault();
                 return Json(new { EmployeeDetails }, JsonRequestBehavior.AllowGet);
@@ -168,7 +168,7 @@ namespace ProfileMVCApplication.Areas.Admin.Controllers
                                         Emp.Name,
                                         Emp.Email,
                                         Emp.Address,
-                                        Emp.Mobile,
+                                        Emp.Mobile
                                        
                                     }).ToList();
                 return Json(EmployeeList, JsonRequestBehavior.AllowGet);
