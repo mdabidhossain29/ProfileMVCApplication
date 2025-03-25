@@ -1,0 +1,101 @@
+﻿
+@{
+    ViewBag.Title = "FilterEmployee";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">View Employee</div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Enter EmployeeName</label>
+                            <input type="text" id="Txtempnm" style="width:650px;" class="form-control" autocomplete="off" placeholder="Employee Name" />
+                        </div>
+                    </div>
+                    <div class="row" id="Empdiv" style="margin-top:15px;">
+                        <div class="col-md-12">
+                            <table id="TblEmployee" class="table table-bordered table-sm table-hover text-center">
+                                <thead style="background-color:deepskyblue">
+                                    <tr>
+                                        <th class="text-center"><b>#</b></th>
+
+                                        <th class="text-center"><b>Name</b></th>
+                                        <th class="text-center"><b>Email</b></th>
+                                        <th class="text-center"><b>Address</b></th>
+                                        <th class="text-center"><b>MobileNo</b></th>
+                                       
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row text-center" id="Messagediv">
+                        <span id="spantext"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+      $(document).ready(function () {
+          $("#Empdiv").hide();
+          $("#Messagediv").hide();
+      });
+      $(document).on('keyup', '#Txtempnm', function () {
+          var _Empnm = $(this).val();
+          fn_GetEmployeeList(_Empnm);
+      });
+      function fn_GetEmployeeList(_Empnm) {
+          $.ajax({
+              type: "POST",
+              url: '/Admin/Admin/GetEmployeeDetailsByName',
+              data: JSON.stringify({ EmployeeName: _Empnm }),
+              contentType: "application/json; charset=utf-8",
+              async: false,
+              cache: false,
+              dataType: "JSON",
+              success: function (Resp) {
+                  fn_HtmlTable(Resp);
+              },
+              error: function (Error) {
+                  console.log("Error ", Error);
+              }
+          });
+      }
+
+      function fn_HtmlTable(ResponseData) {
+          $("#TblEmployee tbody").empty();
+          if (ResponseData.length > 0) {
+              $("#Empdiv").show();
+              $("#Messagediv").hide();
+              $.each(ResponseData, function (Index, Value) {
+                  var Slno = (Index + 1);
+                  var Html = '';
+                  Html += '<tr>';
+                  Html += '<td class="text-center">' + Slno + '</td>';
+                  Html += '<td class="text-center">' + Value.Name + '</td>';
+                  Html += '<td class="text-center">' + Value.Email + '</td>';
+                  Html += '<td class="text-center">' + Value.Address + '</td>';
+                  Html += '<td class="text-center">' + Value.Mobile + '</td>';
+                  
+                  Html += '</tr>';
+                  $("#TblEmployee tbody").append(Html);
+              });
+          }
+          else {
+              $("#Empdiv").hide();
+              $("#Messagediv").show();
+              $("#spantext").css("color", "red");
+              $("#spantext").text("No Result Found");
+          }
+      }
+    </script>
+}
+

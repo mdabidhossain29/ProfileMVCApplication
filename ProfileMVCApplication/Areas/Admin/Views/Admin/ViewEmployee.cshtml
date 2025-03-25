@@ -1,0 +1,219 @@
+﻿@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">View Employee</div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <table id="Tbluser" class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center"><b>SlNo#</b></th>
+                                        <th class="text-center"><b>Name</b></th>
+                                        <th class="text-center"><b>MailID</b></th>
+                                        <th class="text-center"><b>Address</b></th>
+                                        <th class="text-center"><b>MobileNo</b></th>
+                                        
+                                        <th class="text-center"><b>Action</b></th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Modify Employee</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="Txtempid" value="0" />
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Employee Name:</label>
+                            <input type="text" class="form-control" id="txtname" placeholder="Your Name">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>MailID:</label>
+                            <input type="text" class="form-control" id="txtmail" placeholder="Your Mail">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Address:</label>
+                            <input type="text" class="form-control" id="txtaddr" placeholder="Your Address">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>MobileNo:</label>
+                            <input type="text" class="form-control" id="txtmobile" placeholder="Mobile No">
+                        </div>
+                    </div>
+                </div>
+              
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="Btnupdate">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            fn_GetEmpDetails();
+        });
+        function fn_GetEmpDetails() {
+            $.ajax({
+                type: "POST",
+                url: '/Admin/Admin/GetEmpList',
+                contentType: "application/json; charset=utf-8",
+                async: false,
+                cache: false,
+                dataType: "json",
+                success: function (response) {
+                    var EmpList = response.EmpList;
+                    fn_BindTable(EmpList);
+                },
+                error: function (Error) {
+                    console.log("Error: ", Error.responseText);
+                }
+            });
+        }
+        function fn_BindTable(EmpList) {
+            $('#Tbluser').dataTable().fnDestroy();
+            $("#Tbluser tbody").empty();
+            $.each(EmpList, function (Index, Value) {
+                var Slno = (Index + 1);
+                var Html = '';
+                Html += '<tr>';
+                Html += '<td class="text-center">' + Slno + '</td>';
+                Html += '<td class="text-center">' + Value.Name + '</td>';
+                Html += '<td class="text-center">' + Value.Email + '</td>';
+                Html += '<td class="text-center">' + Value.Address + '</td>';
+                Html += '<td class="text-center">' + Value.Mobile + '</td>';
+               
+                Html += '<td>';
+                Html += '<i class="fa fa-pencil Clsedit" style="font-size:20px" data-id="' + Value.EmpID + '" data-toggle="modal" data-target="#myModal"></i>';
+                Html += '<i class="fa fa-trash-o Clsdel" data-id="' + Value.EmpID + '" style="font-size:20px;color:red;margin-left:5px;"></i>';
+                Html += '</td>';
+                Html += '</tr>';
+                $("#Tbluser tbody").append(Html);
+            });
+            $("#Tbluser").dataTable();
+        }
+    </script>
+
+    <!-------------------------------------------Edit-Update Student---------------------------------------------------------------------->
+    <script type="text/javascript">
+        $(document).on('click', '.Clsedit', function () {
+            var _EmpId = $(this).attr("data-id");
+            $.ajax({
+                type: "POST",
+                url: '/Admin/Admin/GetEmployeeDetails',
+                data: JSON.stringify({EmpID: _EmpId }),
+                contentType: "application/json; charset=utf-8",
+                async: false,
+                cache: false,
+                dataType: "JSON",
+                success: function (resp) {
+                    var EmployeeDetails = resp.EmployeeDetails;
+                    $("#Txtempid").val(EmployeeDetails.EmpID);
+                    $("#txtname").val(EmployeeDetails.Name);
+                    $("#txtmail").val(EmployeeDetails.Email);
+                    $("#txtaddr").val(EmployeeDetails.Address);
+                    $("#txtmobile").val(StudentDetails.Mobile);
+               
+
+                },
+                error: function (Error) {
+                    console.log("Error: ", Error);
+                }
+            });
+        });
+        $(document).on('click', '#Btnupdate', function () {
+            var _EmployeeId = $("#Txtempid").val();
+            var _Nm = $("#txtname").val();
+            var _Mail = $("#txtmail").val();
+            var _Addr = $("#txtaddr").val();
+            var _Mob = $("#Txtmobile").val();
+            
+          
+
+            var JsonData = {
+                EmpID: _EmployeeId,
+                Name: _Nm,
+                Email: _Mail,
+                Mobile: _Mob
+                
+            }
+            $.ajax({
+                type: "POST",
+                url: '/Admin/Admin/UpdateEmployee',
+                data: JSON.stringify(JsonData),
+                contentType: "application/json; charset=utf-8",
+                async: false,
+                cache: false,
+                dataType: "json",
+                success: function (resp) {
+                    if (resp == "Success") {
+                        $("#myModal").modal('hide');
+                        fn_GetEmpDetails();
+                        toastr["success"]("Record Updated successfully");
+                    }
+                    else {
+                        toastr["error"](resp);
+                        return false;
+                    }
+                },
+                error: function (error) {
+                    toastr["error"](error.responseText);
+                    return false;
+                }
+            });
+        });
+        $(document).on('click', '.Clsdel', function () {
+            var _EmpId = $(this).attr("data-id");
+            $.ajax({
+                type: "POST",
+                url: '/Admin/Admin/DeleteEmployeeRecord',
+                data: JSON.stringify({ EmpID: _EmpId }),
+                contentType: "application/json; charset=utf-8",
+                async: false,
+                cache: false,
+                dataType: "JSON",
+                success: function (Resp) {
+                    if (Resp == "Success") {
+                        toastr["success"]("Record Deleted successfully");
+                        fn_GetEmpDetails();
+                    }
+                    else {
+                        toastr["error"](resp);
+                        return false;
+                    }
+                },
+                error: function (Error) {
+                    console.log("Error: ", Error);
+                }
+            });
+        });
+    </script>
+}
+

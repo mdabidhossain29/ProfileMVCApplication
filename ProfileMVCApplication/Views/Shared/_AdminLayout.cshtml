@@ -1,0 +1,161 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewBag.Title</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="/Content/Vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Datatable -->
+    <link href="/Content/Vendor/datatables/css/datatables.min.css" rel="stylesheet" />
+    <link href="/Content/Vendor/datatables/css/datatables.bootstrap.css" rel="stylesheet" />
+    <!-- MetisMenu CSS -->
+    <link href="/Content/Vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="/Content/dist/css/sb-admin-2.css" rel="stylesheet">
+    <!-- Morris Charts CSS -->
+    <link href="/Content/Vendor/morrisjs/morris.css" rel="stylesheet">
+    <!-- Custom Fonts -->
+    <link href="/Content/Vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!-- Datepicker -->
+    <link href="/Content/Vendor/bootstrap-datepicker/css/datepicker.css" rel="stylesheet" />
+    <link href="/Content/Vendor/components-md.css" rel="stylesheet" />
+    <!--Toster-->
+    <link href="/Content/Vendor/toastr/toastr.min.css" rel="stylesheet" />
+    <!-- Select2 -->
+    <link href="/Content/Vendor/select2/select2.min.css" rel="stylesheet" />
+    <link href="/Content/Vendor/select2/select2-bootstrap.min.css" rel="stylesheet" />
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon" />
+    @RenderSection("Style", required: false)
+
+    <style type="text/css">
+        .display-none {
+            display: none;
+        }
+
+        table.dataTable > thead > tr {
+            font-weight: bold;
+            text-align: center;
+        }
+
+        table.dataTable > tbody > tr {
+            text-align: center;
+        }
+
+        .fa {
+            cursor: pointer;
+        }
+
+        .dataTables_wrapper {
+            padding: 1%;
+        }
+    </style>
+</head>
+<body>
+    <div id="wrapper">
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="@Url.Action("Index", "Dashboard")">Manage Employee</a>
+            </div>
+
+
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li>
+                            <a href="@Url.Action("Index", "Home")" class="@ViewBag.DashboardClass"><i class="fa fa-dashboard fa-fw"></i>Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="/Admin/Admin/AddEmployee"><i class="fa fa-dashboard fa-fw"></i>Add Employee</a>
+                        </li>
+                        <li>
+                            <a href="/Admin/Admin/ViewEmployee"><i class="fa fa-dashboard fa-fw"></i>View/Modify</a>
+                        </li>
+                        
+                       
+                        <li>
+                            <a href="/Admin/Admin/FilterEmployee"><i class="fa fa-dashboard fa-fw"></i>Filter Employee</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div>
+            @RenderBody()
+        </div>
+
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My Attendance Application</p>
+        </footer>
+    </div>
+
+    <!-- jQuery -->
+    <script src="/Content/Vendor/jquery/jquery.min.js"></script>
+    <script src="/Content/Vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/Content/Vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script src="/Content/Vendor/metisMenu/metisMenu.min.js"></script>
+    <script src="/Content/Vendor/raphael/raphael.min.js"></script>
+    <script src="/Content/Vendor/morrisjs/morris.min.js"></script>
+    @*<script src="/Content/data/morris-data.js"></script>*@
+    @*<script src="/Content/dist/js/sb-admin-2.js"></script>*@
+    <!-- DATATABLE-->
+    <script src="/Content/Vendor/datatables/js/datatable.js"></script>
+    <script src="/Content/Vendor/datatables/js/datatables.min.js"></script>
+    <script src="/Content/Vendor/datatables/js/datatables.bootstrap.js"></script>
+    <!--Toster-->
+    <script src="/Content/Vendor/toastr/toastr.min.js"></script>
+    <!-- BEGIN COMMON JS FILE -->
+    <script src="/Content/Vendor/select2/select2.min.js"></script>
+    <script src="/Common/JS/ajaxSpiner.js"></script>
+    <script src="/Common/JS/dataTableInit.js"></script>
+    <script src="/Common/JS/Error.js"></script>
+    <script src="/Common/JS/Utility.js"></script>
+    <script type="text/javascript">
+        var ErrorDiv = $("#errorBlock").find(".alert.alert-danger.display-none");
+        var SuccessDiv = $("#errorBlock").find(".alert.alert-success.display-none");
+
+        $('.dateFormat').datepicker({
+            language: 'en',
+            format: 'dd-M-yy',
+            todayHighlight: true,
+            autoclose: true
+        });
+
+        function FormSuccessError(Message, Status, parrentID, ScrollDiv) {
+            hideAlert();
+            if (Status == "Error") {
+                FormError(Message, Status, parrentID);
+                ErrorDiv.show();
+            }
+            else if (Status == "Success") {
+                FormError(Message, Status, parrentID);
+                SuccessDiv.show();
+            }
+            ScrollToForm(ScrollDiv);
+        }
+        function ScrollToForm(container) {
+            $("html, body").animate({ scrollTop: $('#' + container).offset().top }, "slow");
+        }
+        function ScrollToTop() {
+            $('html, body').animate({ scrollTop: 0 }, "slow");
+        }
+
+        function hideAlert() {
+            SuccessDiv.hide();
+            ErrorDiv.hide();
+        }
+    </script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

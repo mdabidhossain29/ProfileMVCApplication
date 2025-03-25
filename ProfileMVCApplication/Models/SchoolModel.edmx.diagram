@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="cea651063b1843289b93851963ec4374" Name="Diagram1">
+        <EntityTypeShape EntityType="SchoolDBModel.TblAdmin" Width="1.5" PointX="7.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SchoolDBModel.TblAdminPanelOrderd" Width="1.5" PointX="0.75" PointY="10.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SchoolDBModel.TblCart" Width="1.5" PointX="7.75" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SchoolDBModel.TblClass" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SchoolDBModel.TblCountry" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SchoolDBModel.TblCustomer" Width="1.5" PointX="2.75" PointY="10.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SchoolDBModel.TblDepartment" Width="1.5" PointX="5.75" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SchoolDBModel.TblEmployee" Width="1.5" PointX="9.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SchoolDBModel.TblEmployee1" Width="1.5" PointX="8" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SchoolDBModel.TblFileInfo" Width="1.5" PointX="10.75" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SchoolDBModel.TblGuardianDetails" Width="1.5" PointX="4.75" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SchoolDBModel.TblManager" Width="1.5" PointX="10.75" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SchoolDBModel.TblProduct" Width="1.5" PointX="10.75" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SchoolDBModel.TblReturnItems" Width="1.5" PointX="11.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SchoolDBModel.TblSection" Width="1.5" PointX="3" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SchoolDBModel.TblState" Width="1.5" PointX="3" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SchoolDBModel.TblStudentDetails" Width="1.5" PointX="5.25" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SchoolDBModel.TblStudentInfo" Width="1.5" PointX="6.75" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SchoolDBModel.TblUser_Mst" Width="1.5" PointX="0.75" PointY="14.125" IsExpanded="true" />
+        <AssociationConnector Association="SchoolDBModel.FK_TblStudentDetails_TblClass" ManuallyRouted="false" />
+        <AssociationConnector Association="SchoolDBModel.FK_TblState_TblCountry" ManuallyRouted="false" />
+        <AssociationConnector Association="SchoolDBModel.FK_TblStudentDetails_TblCountry" ManuallyRouted="false" />
+        <AssociationConnector Association="SchoolDBModel.FK_TblEmployee1_TblDepartment" ManuallyRouted="false" />
+        <AssociationConnector Association="SchoolDBModel.FK_TblStudentDetails_TblSection" ManuallyRouted="false" />
+        <AssociationConnector Association="SchoolDBModel.FK_TblStudentDetails_TblState" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
